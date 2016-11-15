@@ -1,7 +1,9 @@
-
+setwd("C:\\Users\\Asus\\Documents\\DataScience\\Project4\\Project4_data")
+install.packages("rhdf5")
 library(rhdf5)
 
-paths = Sys.glob("*\\*\\*\\*\\*.h5")
+paths = Sys.glob("*\\*\\*\\*\\*\\*.h5")
+
 songf = lapply(paths, function(x){h5read(x,"/analysis")})
 
 t1 <- Sys.time()

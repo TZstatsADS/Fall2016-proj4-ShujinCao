@@ -5,7 +5,7 @@ library(tm)
 library(lda)
 library(LDAvis)
 
-stop_words <- stopwords("SMART")
+# stop_words <- stopwords("SMART")
 load("lyr.RData")
 
 lyr[,1]
