@@ -6,27 +6,33 @@ library(lda)
 library(LDAvis)
 
 stop_words <- stopwords("SMART")
-lyr_words = load("lyr.RData")
-dim(lyr_words)
-lyr_words[,1]
-lyr_words <- lyr_words[,-c(2,3,6:30)]
-del <- names(lyr_words) %in% stop_words
-lyr_dic <- lyr_words[!del]
-vocab <- names(lyr_dic)
+load("lyr.RData")
+
+lyr[,1]
+lyr_words <- lyr[,-c(2,3,6:30)]
+dim(lyr)[1]
+# del <- names(lyr) %in% stop_words
+# lyr_dic <- lyr_words[!del]
+vocab <- names(lyr_words)
 head(vocab)
 n = ncol(lyr_words) - 1
-d_list = list()
+
+d_list1 = list()
+d_list2 = list()
 j = 0
-for (i in 1:length(songf)){
+t1 <- Sys.time()
+for (i in 1:dim(lyr)[1]){
   for (k in 1:n){
-    idx = lyr_dic[i,k] 
+    idx = lyr_words[i,k] 
     if(idx != 0){j = j+1
-    d_list[[i]][1,j] = k-1
-    d_list[[i]][2,j] = idx
+    d_list1[j] = k-1
+    d_list2[j] = idx
     }  
   }
 }
-
+d_list <- rbind(d_list1,d_list2)
+t2 <- Sys.time()
+t2-t1
 
 K <- 20
 G <- 5000
