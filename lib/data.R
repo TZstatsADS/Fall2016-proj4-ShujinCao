@@ -60,6 +60,7 @@ get.terms <- function(x) {
 documents <- sapply(doc.list, get.terms)
 documents[1]
 head(documents,5)
+class(documents)
 
 K <- 20
 G <- 5000

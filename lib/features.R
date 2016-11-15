@@ -17,13 +17,14 @@ t2-t1
 
 mat_t = mat_total[,-1]
 matT_pitches = t(mat_t)
-dim(matT)
+save(matT_pitches,file = "matT_pitches.RData")
 
 t1 <- Sys.time()
 kmean_pitches = kmeans(matT_pitches,500)
 t2 <- Sys.time()
 t2-t1
 idx= kmean_pitches$cluster
+save(idx,file = "idx.RData")
 
 t1 <- Sys.time()
 mat_f_pitches = matrix(NA,ncol = 500, nrow =length(songf))
@@ -46,8 +47,7 @@ for (i in 1:length(songf)){
   n = dim(songf[[i]]$segments_pitches)[2]
   id[N+1:N+n] <- rep(i,n)
 }
-tail(id)
-fix(id)
+
 t1 <- Sys.time()
 cluster_i = 0
 for (i in 1:length(songf)){
@@ -61,9 +61,9 @@ for (i in 1:length(songf)){
     mat_f_pitches[i,k] <- cluster_i/n
   }
 }
-t2 <- Sys.time()
-t2-t1
+t2 <- Sys.time() 
+t2-t1 
 tail(mat_f_pitches)
-
-
+dim(mat_f_pitches)
+save(mat_f_pitches,file = "mat_f_pitches.RData")
 
