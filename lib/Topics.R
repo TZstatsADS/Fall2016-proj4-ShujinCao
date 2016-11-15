@@ -5,7 +5,7 @@ library(tm)
 library(lda)
 library(LDAvis)
 
-# stop_words <- stopwords("SMART")
+stop_words <- stopwords("SMART")
 load("lyr.RData")
 
 lyr[,1]
@@ -16,7 +16,8 @@ dim(lyr)[1]
 vocab <- names(lyr_words)
 head(vocab)
 n = ncol(lyr_words) - 1
-
+get_list <- function(x){
+} 
 d_list1 = list()
 d_list2 = list()
 j = 0
@@ -25,16 +26,18 @@ for (i in 1:dim(lyr)[1]){
   for (k in 1:n){
     idx = lyr_words[i,k] 
     if(idx != 0){j = j+1
-    d_list1[j] = k-1
-    d_list2[j] = idx
+    d_list1[[i]] = append(d_list1,k-1)
+    d_list2[[i]] = append(d_list2,idx)
     }  
   }
 }
 d_list <- rbind(d_list1,d_list2)
+save(d_list,file = "d_list.RData")
+
 t2 <- Sys.time()
 t2-t1
 dim(d_list)
-
+max(d_list)
 K <- 20
 G <- 5000
 alpha <- 0.02
