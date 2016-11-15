@@ -33,6 +33,7 @@ for (i in 1:dim(lyr)[1]){
 d_list <- rbind(d_list1,d_list2)
 t2 <- Sys.time()
 t2-t1
+dim(d_list)
 
 K <- 20
 G <- 5000
