@@ -93,7 +93,12 @@ head(MovieReviews,1)
 example <- c("I am am am the very very model of a modern major general",
              "I have a major headache")
 corpus <- lexicalize(example, lower=TRUE)
-documents2 = corpus$documents
+corpus <- Corpus(VectorSource(example))
+corpus
+x = DocumentTermMatrix(corpus) 
+names(x)
+
+xdocuments2 = corpus$documents
 fit$topics
 fit2 <- lda.collapsed.gibbs.sampler(documents = documents2, K = K, vocab = vocab, 
                                    num.iterations = G, alpha = alpha, 

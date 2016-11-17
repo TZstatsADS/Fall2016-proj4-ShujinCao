@@ -1,15 +1,51 @@
 
-
-colnames(mat_topics) =  paste("topic",1:K, sep = "")
-
-
+install.packages("randomForestSRC")
+install.packages("randomForest")
+library(randomForestSRC)
+library(randomForest)
+mat_train <- cbind(mat_topics,mat_f_pitches[-1,])
+mat_train
 subset = 1:100
-cv.train = train_data[-subset,]
-cv.test = train_data[subset,]
+cv.train = mat_train[-subset,]
+cv.test = mat_train[subset,]
 
 #rfsrc(Multivar(y1, y2, ..., yd) ~ . , my.data, ...)
 #rfsrc(cbind(y1, y2, ..., yd) ~ . , my.data, ...)
-fit_rf = rfsrc(mat_topics, data = cv_train)
+colnames(cv.train) <- paste("feature",1:ncol(cv.train))
+colnames(cv.test) <- paste("feature",1:ncol(cv.train))
 
-predict_rf_topic = predict(fit_rf, newdata = cv.test[,-c(1:K], type = "probability")
+colnames(cv.train) <- letters[1:ncol(cv.train)]
+colnames(cv.train[,1:20])
+cv.train$feature.1
+data <- as.data.frame(cv.train)
 
+t1 <- Sys.time()
+fit_rf = rfsrc(cbind(`feature 1`,`feature 2`,`feature 3`,`feature 4`,`feature 5`,
+                     `feature 6`,`feature 7`,`feature 8`,`feature 9`,`feature 10`,
+                     `feature 11`,`feature 12`,`feature 13`,`feature 14`,
+                     `feature 15`,`feature 16`,
+                     `feature 17`,`feature 18`,
+                     `feature 19`,
+                     `feature 20`)~., data = data)
+t2 <- Sys.time()
+t2 - t1
+predict_rf_topic = predict(fit_rf, newdata = as.data.frame(cv.test[,-c(1:K)]), type = "probability")   
+summary(fit_rf)                                                  
+predict_rf_topic                                                
+                      
+t1 <- Sys.time()
+fit_rf = randomForest(y = data$`feature 1`, x = data[,21:ncol(data)], ntree = 501 )
+t2 <- Sys.time()
+t2 - t1
+
+
+
+
+
+
+
+
+
+
+##
+fit_rf = rfsrc(`feature 1`~., data = data[20:ncol(cv.train)])
