@@ -17,10 +17,14 @@ Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by
 ```
 proj/
 ├── lib/
+       -features.R
+       -randomForest.R
+       -nnet.R
+       -Topics.R
 ├── data/
 ├── doc/
 ├── figs/
 └── output/
 ```
 
-Please see each subfolder for a README file.
+
