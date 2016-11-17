@@ -8,16 +8,16 @@ library(topicmodels)
 
 #clean data
 load("lyr.RData")
-lyr_words <- lyr[,-c(2,3,6:30)]
+lyr_words <- lyr[,-c(1:30)]
 dim(lyr)[1]
 vocab <- names(lyr_words)
 head(vocab)
 n = ncol(lyr_words)
-lyr_words[1,]
+
 lyr_words <- as.matrix(lyr_words)
 save(lyr_words,file = "lyr_words.RData")
 dim(lyr_words)
-lyr_words <- lyr_words[,-1]
+lyr_words[1,]
 lyr_words <- as.integer(lyr_words)
 lyr_words <- matrix(lyr_words, nrow = nrow(lyr), length(lyr_words)/nrow(lyr))
 dim(lyr_words)
@@ -28,24 +28,29 @@ class(lyr_words[1:10])
 lyr_words <- lyr_words[rowSums(lyr_words !=0)>0,]
 # lyr_words <- lyr_words[, colSums(lyr_words != 0) > 0]
 #Build the topic model using package"topicmodels"
-LDA_fit <- LDA(lyr_words, 8)
+LDA_fit <- LDA(lyr_words, 17)
+dist_topics <- posterior(LDA_fit,lyr_words)
+doc_topics <- dist_topics$topics
+doc_topics2 <- LDA_FIT@gamma
+
 
 
 #Below using package"lda" for topic modeling
 #prepare documents for lda modeling
+
 t1 <- Sys.time() 
-for (i in 2:dim(lyr_words)[1]){  
+for (i in 1:dim(lyr_words)[1]){  
   j = 0
-  d <- matrix(NA,nrow = 2, ncol = sum(lyr_words[i,]!=0)-1)
-  for (k in 2:n){
+  d <- matrix(NA,nrow = 2, ncol = sum(lyr_words[i,]!=0))
+  for (k in 1:n){
     idx = lyr_words[i,k] 
     if(idx != 0){
       j = j+1
-      d[1,j] <- as.integer(k-2)
+      d[1,j] <- as.integer(k-1)
       d[2,j] <- as.integer(idx)
     }
   }
-  if(i==2) d_l <- list(d) else 
+  if(i==1) d_l <- list(d) else 
     d_l <- c(d_l,list(d))
 }  
 t2 <- Sys.time()
@@ -57,12 +62,11 @@ length(d_l2)
 save(d_l,file = "d_l.RData")
 
 #Build the lda model
-K <- 8
-G <- 5000
-alpha <- 0.02
-eta <- 0.02
+K <- 17
+G <- 1000
+alpha <- 0.1
+eta <- 0.1
 t1 <- Sys.time()
-
 fit_lda <- lda.collapsed.gibbs.sampler(d_l, K = K, vocab = vocab, 
                                        num.iterations = G, alpha = alpha, 
                                        eta = eta, initial = NULL, burnin = 0,
@@ -74,12 +78,9 @@ mat_topics = t(fit_lda$document_sums)
 mat_topics_scaled <- plogis(mat_topics)*2-1
 save(mat_topics_scaled,file = "mat_topics_scaled.RData")
 save(mat_topics, file = "mat_topics.RData")
-head(mat_topics_scaled)
-head(mat) 
-dim(mat_topics_scaled) 
 
 ##Ranking Prediciton PART
-pred_topW = predictive.distribution(fit_lda$document_sums,fit_lda$topics,0.02,0.02)
+pred_topW = predictive.distribution(fit_lda$document_sums,fit_lda$topics,0.1,0.1)
 dim(pred_topW)
 pred_top_word_mat <- t(pred_topW)
 head(pred_top_word_mat)
