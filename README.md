@@ -21,16 +21,20 @@ Term: Fall 2016
      [FEATURE PREPARATION - features.R](lib/features.R) -> [TOPIC MODELING - Topics.R](lib/Topics.R) -> [randomForest+SVM.R](random.Forest+SVM.R) -> [Ranking - prediction.R](prediction.R) 
      - For the testing process please see [test.R](lib/test.R) and here are all generated [RData files](data)
      * I. FEATURE PREPARATION
+     
      The features chosen in the model are sd and median values of bars_start, beats_start, sections_start and tatums_start. Besides, a codebook is generated using KMEANS method for both segments_pitches(12 dimentions) and segments_timbre(12 dimentions). Notice here the codebook might not be necessary for this test, but in my case, it works well.
      PCA is used for dimention reduction from 2350 X 1008 matrix to 2350 X 79 finally for all x_features, the predictors in the multi regression model.
      * II. TOPIC MODELING
+     
      There are two packages that can BE used in R for topic modeling, for this test "topicmodels" is more recommended since it gives the straightforward percentage and the lyr trainig data file can be used directly in the format LDA(lyr). However, when using the "lda" package, the documents are restricted in a two row list, which is not easy to work out unless we can get access to the original texts.
      The parameters are set as: 
      K <- 14;G <- 1000; alpha <- 0.1; eta <- 0.1, I read some papers and thought they should be reasonable to use in this case.
      One more thing to mention is about the function predictive.distribution() in the "lda" package, I used it to obtain the distribution of words for each song by input the distribution of topics for each song and the words distribution for each topic.
      * III. RANDOM FOREST
+     
      This method is used to predit the topic distribution for each song based on the song features. I chose this by its lowest mean sqaure error rate obtained by using a 100 size testing set and 2239 size training set.
-     * IV. RANKING 
+     * IV. RANKING
+     
      The percentage of each word in one song is given directly by predictive.distribution(), and than use rank(negative of the percentage) to get the ranking with #1 the highest.
      
      
