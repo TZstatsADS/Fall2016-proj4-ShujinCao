@@ -18,7 +18,7 @@ Term: Fall 2016
   
      MAIN PROCESS
   ** PLEASE REVIEW THE R FILES FOR TRAINING PROCESS IN THE FOLLOWING ORDER ** 
-     [FEATURE PREPARATION - features.R](lib/features.R) -> [TOPIC MODELING - Topics.R](lib/Topics.R) -> [randomForest+SVM.R](random.Forest+SVM.R) -> [Ranking - prediction.R](prediction.R) 
+     [FEATURE PREPARATION - features.R](lib/features.R) -> [TOPIC MODELING - Topics.R](lib/Topics.R) -> [randomForest+SVM.R](lib/randomForest.R) -> [Ranking - prediction.R](lib/prediction.R) 
      - For the testing process please see [test.R](lib/test.R) and here are all generated [RData files](data)
      * I. FEATURE PREPARATION
      
