@@ -77,6 +77,7 @@ save(mat_topics, file = "mat_topics.RData")
 save(wd_dist_tp,file = "wd_dist_tp.RData")
 save(tp_dist_doc,file = "tp_dist_doc.RData")
 save(mat_words,file = "mat_words.RData")
+load("mat_topics.RData")
 
 # lyr_words <- as.integer(lyr_words)
 # lyr_words <- matrix(lyr_words, nrow = nrow(lyr), length(lyr_words)/nrow(lyr))
